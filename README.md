@@ -10,17 +10,17 @@ A Docker container has been set up for you to use for this practical. Using this
 
 To run this practical, first [install and open Docker](https://docs.docker.com/get-docker/). Then on Linux or Mac run:
 ```{bash unix-run, eval=FALSE, echo=TRUE, highlight=TRUE}
-docker run -p 8787:8787 ghcr.io/kateeasoncrukci/copy_number_practical:amd
+docker run -p 8787:8787 ghcr.io/kateeasoncrukci/copy_number_practical:amd2024
 ```
 
 Or on Windows `cmd`:
 ```{bash cmd-run, eval=FALSE, echo=TRUE, highlight=TRUE}
-docker run -p 8787:8787 ghcr.io/kateeasoncrukci/copy_number_practical:amd
+docker run -p 8787:8787 ghcr.io/kateeasoncrukci/copy_number_practical:amd2024
 ```
 
 or PowerShell:
 ```{bash powershell-run, eval=FALSE, echo=TRUE, highlight=TRUE}
-docker run -p 8787:8787 ghcr.io/kateeasoncrukci/copy_number_practical:amd
+docker run -p 8787:8787 ghcr.io/kateeasoncrukci/copy_number_practical:amd2024
 ```
 
 A password should be printed (after `The password is set to: ...`), which you should copy.
