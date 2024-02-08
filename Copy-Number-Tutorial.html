@@ -109,6 +109,34 @@ if (window.hljs) {
 
 <article class="topics" id="learnr-tutorial-content">
 
+<style type="text/css">
+@media print {
+  .topicsContainer,
+  .topicActions,
+  .exerciseActions .skip {
+    display: none;
+  }
+  .topics .tutorialTitle,
+  .topics .section.level2,
+  .topics .section.level3:not(.hide) {
+    display: block;
+  }
+  .topics {
+    width: 100%;
+  }
+  .tutorial-exercise, .tutorial-question {
+    page-break-inside: avoid;
+  }
+  .section.level3.done h3 {
+    padding-left: 0;
+    background-image: none;
+  }
+  .topics .showSkip .exerciseActions::before {
+    content: "Topic not yet completed...";
+    font-style: italic;
+  }
+}
+</style>
 <div id="section-introduction-setup" class="section level2">
 <h2>Introduction &amp; Setup</h2>
 <p>In this practical, we are going to use copy number calling software
@@ -118,59 +146,8 @@ href="https://doi.org/10.1073/pnas.1009843107">ASCAT</a>
 (<strong>A</strong>llele-<strong>S</strong>pecific <strong>C</strong>opy
 number <strong>A</strong>nalysis of <strong>T</strong>umours), and the
 sequencing data comes from a breast cancer cell line (HCC1954) that was
-sequenced by the Cancer Cell Line Encyclopedia (CCLE), and a
+sequenced by the Cancer Cell Line Encyclopedia (CCLE), and an
 immortalised normal blood cell line from the same patient.</p>
-<div id="section-setup" class="section level3">
-<h3>Setup</h3>
-<p>To run this practical yourself, you can choose one of the below
-options.</p>
-<div
-id="section-running-the-practical-in-a-docker-container---recommended"
-class="section level4">
-<h4>Running the practical in a Docker container - recommended</h4>
-<p>A Docker container has been set up for you to use for this practical.
-Using this container is highly recommended, because it contains all the
-software dependencies and data you need to do the practical.</p>
-<p>To run this practical, first <a
-href="https://docs.docker.com/get-docker/">install and open Docker</a>.
-You may want to create a new directory for this project, <code>cd</code>
-into it, then on Linux or Mac run:</p>
-<pre class="bash"><code>docker run -p 8787:8787 -v &quot;$(pwd)&quot;:/home/rstudio/practical ghcr.io/kateeasoncrukci/copy_number_practical:amd</code></pre>
-<p>Or on Windows <code>cmd</code>:</p>
-<pre class="bash"><code>docker run -p 8787:8787 -v %cd%:/home/rstudio/practical ghcr.io/kateeasoncrukci/copy_number_practical:amd</code></pre>
-<p>or PowerShell:</p>
-<pre class="bash"><code>docker run -p 8787:8787 -v ${PWD}:/home/rstudio/practical ghcr.io/kateeasoncrukci/copy_number_practical:amd</code></pre>
-<p>A password should be printed (after
-<code>The password is set to: ...</code>), which you should copy.</p>
-<p>In your browser, navigate to <a
-href="localhost:8787">localhost:8787</a>, and use the username
-<code>rstudio</code> and the password you just copied to log in.</p>
-</div>
-<div
-id="section-running-the-practical-by-manually-installing-r-packages"
-class="section level4">
-<h4>Running the practical by manually installing R packages</h4>
-<p>If you have problems installing or running Docker, you can manually
-install the required packages and download the practical’s data.</p>
-<p>In your RStudio session, download and install BioConductor if you
-don’t already have it, then install ASCAT’s dependencies, and finally
-ASCAT itself.</p>
-<pre class="r"><code>install.packages(&#39;BiocManager&#39;)
-BiocManager::install()
-
-BiocManager::install(c(&#39;IRanges&#39;, &#39;GenomicRanges&#39;))
-remotes::install_url(&#39;https://github.com/VanLoo-lab/ascat/releases/download/v3.0.0/ASCAT_3.0.0.tar.gz&#39;)</code></pre>
-<p>Then, download and unzip the correction reference data from <a
-href="https://www.dropbox.com/s/v0tgr1esyoh1krw/GC_G1000_hg19.zip">here</a>
-and <a
-href="https://www.dropbox.com/s/50n7xb06x318tgl/RT_G1000_hg19.zip">here</a>,
-and the input data from the practical’s <a
-href="https://github.com/kateeasoncrukci/copy_number_practical/tree/main/input">GitHub
-repository</a>. Put the correction reference data in a folder called
-<code>data/reference_data</code> and the input data in a folder called
-<code>data/input</code>.</p>
-</div>
-</div>
 </div>
 <div id="section-task-1-from-bams-to-logrs-and-bafs"
 class="section level2">
@@ -201,6 +178,23 @@ command can be inspected using the code below. Use
 <code>read.table</code> to look at the other outputs too.</p>
 <p>What do the values in these files mean? How do you think they were
 calculated?</p>
+<div class="tutorial-exercise" data-label="test" data-completion="1"
+data-diagnostics="1" data-startover="1" data-lines="10">
+<pre class="text"><code>Sys.sleep(5)</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
+</div>
+<div class="tutorial-exercise" data-label="allele-count-view"
+data-completion="1" data-diagnostics="1" data-startover="1"
+data-lines="10">
+<pre class="text"><code>read.table(&#39;data/input/allele_counts/HCC1954_alleleFrequencies_chr22.txt&#39;,
+           header = TRUE,
+           comment.char = &#39;&#39;)[105:110,]
+
+read.table(&#39;data/input/allele_counts/HCC1954_normal_alleleFrequencies_chr22.txt&#39;,
+           header = TRUE,
+           comment.char = &#39;&#39;)[105:110,]</code></pre>
+<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
+</div>
 <div class="tutorial-exercise" data-label="logr-baf-view"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
@@ -212,25 +206,6 @@ read.table(&#39;data/input/HCC1954_tumourBAF.txt&#39;,
            header = TRUE,
            nrows = 5)</code></pre>
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
-</div>
-<div class="tutorial-exercise" data-label="allele-count-view"
-data-completion="1" data-diagnostics="1" data-startover="1"
-data-lines="10">
-<pre class="text"><code>read.table(&#39;data/allele_counts/HCC1954_alleleFrequencies_chr22.txt&#39;,
-           header = TRUE,
-           nrows = 5,
-           comment.char = &#39;&#39;)
-
-read.table(&#39;data/allele_counts/HCC1954_normal_alleleFrequencies_chr22.txt&#39;,
-           header = TRUE,
-           nrows = 5,
-           comment.char = &#39;&#39;)</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
-</div>
-<div id="section-logr-baf-view-hint">
-<p>You might also need to take a look at the files in
-<code>data/input/allele_counts</code>, which are used to generate the
-LogR and BAF files.</p>
 </div>
 </div>
 </div>
@@ -276,9 +251,9 @@ ascat.plotRawData(
 <code>raw_LogR_BAF_plots</code> directory. Each red dot represents a SNP
 locus.</p>
 <div id="section-logr-baf-plot-hint">
-<p><img src="data/docs/images/HCC1954.germline.png"
+<p><img src="images/HCC1954.germline.png" style="width:100.0%"
 alt="Raw BAF and LogR values for the normal cell line" /> <img
-src="data/docs/images/HCC1954.tumour.png"
+src="images/HCC1954.tumour.png" style="width:100.0%"
 alt="Raw BAF and LogR values for the tumour cell line" /></p>
 </div>
 </div>
@@ -333,7 +308,7 @@ ascat.plotRawData(
 </div>
 <div id="section-logr-baf-correction-plot-hint">
 <div class="figure">
-<img src="data/docs/images/HCC1954.tumour.png" alt="" />
+<img src="images/HCC1954.tumour.png" style="width:100.0%" alt="" />
 <p class="caption">GC and replication timing-corrected BAFs and
 LogRs</p>
 </div>
@@ -358,18 +333,15 @@ these loci together is called <em>segmentation</em>. ASCAT uses
 allele-specific piecewise constant fitting (ASPCF) to achieve this.</p>
 <div id="section-code" class="section level3">
 <h3>Code</h3>
-<div class="tutorial-exercise" data-label="segmentation"
-data-completion="1" data-diagnostics="1" data-startover="1"
-data-lines="0">
-<pre class="text"><code>dir.create(&#39;~/practical/segmentation_output&#39;)
+<p>Again, this code takes a few minutes to run, so we will load the
+pre-computed result. The command used would be:</p>
+<pre class="r"><code>dir.create(&#39;~/practical/segmentation_output&#39;)
 
 segmented_data &lt;-
   ascat.aspcf(
     ASCATobj = LogR_BAFs_corrected,
     out.dir  = &#39;~/practical/segmentation_output&#39;
 )</code></pre>
-<script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
-</div>
 <div class="tutorial-exercise" data-label="segmentation-plot"
 data-completion="1" data-diagnostics="1" data-startover="1"
 data-lines="0">
@@ -382,7 +354,7 @@ ascat.plotSegmentedData(
 <script type="application/json" data-ui-opts="1">{"engine":"r","has_checker":false,"caption":"<span data-i18n=\"text.enginecap\" data-i18n-opts=\"{&quot;engine&quot;:&quot;R&quot;}\">R Code<\/span>"}</script>
 </div>
 <div id="section-segmentation-plot-hint">
-<p><img src="data/docs/images/HCC1954.ASPCF.png"
+<p><img src="images/HCC1954.ASPCF.png" style="width:100.0%"
 alt="Segmentation plot" /> The green lines represent the segments of
 constant copy number that ASCAT’s ASPCF has generated.</p>
 </div>
@@ -449,8 +421,8 @@ data-lines="0">
 </div>
 <div id="section-run-ascat-plot-hint">
 <div class="figure">
-<img src="data/docs/images/max_5_HCC1954.adjustedASCATprofile.png"
-alt="" />
+<img src="images/max_5_HCC1954.adjustedASCATprofile.png"
+style="width:100.0%" alt="" />
 <p class="caption">Copy number profile of the cell line</p>
 </div>
 </div>
@@ -495,7 +467,7 @@ data-lines="6">
 <p>Take another look at the plot showing the raw BAF values for the
 normal sample, <code>raw_LogR_BAF_plots/HCC1954.germline.png</code>.</p>
 <div class="figure">
-<img src="data/docs/images/HCC1954.germline.png" alt="" />
+<img src="images/HCC1954.germline.png" style="width:100.0%" alt="" />
 <p class="caption">Raw germline BAF and LogR values</p>
 </div>
 <p>Which of the SNPs shown in this plot are useful for copy number
@@ -521,7 +493,7 @@ href="https://grch37.ensembl.org/index.html">Ensembl</a> might be a good
 place to look.</p>
 </div>
 <!-- Saving .RData objects in case of any problems running things -->
-<p>
+<p>` 
 <script type="application/shiny-prerendered" data-context="server-start">
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
@@ -551,7 +523,7 @@ options(tutorial.storage = list(
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
-learnr:::register_http_handlers(session, metadata = list(version = 0.1))
+learnr:::register_http_handlers(session, metadata = list(version = 0.2))
 </script>
 
 
@@ -568,6 +540,108 @@ learnr:::i18n_observe_tutorial_language(input, session)
 session$onSessionEnded(function() {
         learnr:::event_trigger(session, "session_stop")
       })
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-test-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-test-code-editor`)), session)
+output$`tutorial-exercise-test-output` <- renderUI({
+  `tutorial-exercise-test-result`()
+})
+</script>
+
+
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache(structure(list(label = "test", global_setup = structure(c("library(learnr)", 
+"knitr::opts_chunk$set(echo = FALSE)", "tutorial_options(exercise.timelimit = 180)", 
+"options(tutorial.storage = list(", "", "  # save an arbitrary R object \"data\" to storage", 
+"  save_object = function(tutorial_id, tutorial_version, user_id, object_id, data) {", 
+"  ", "  },", "  ", "  # retreive a single R object from storage", 
+"  get_object = function(tutorial_id, tutorial_version, user_id, object_id) { ", 
+"    NULL ", "  },", "  ", "  # retreive a list of all R objects stored", 
+"  get_objects = function(tutorial_id, tutorial_version, user_id) { ", 
+"    list() ", "  },", "  ", "  # remove all stored R objects", 
+"  remove_all_objects = function(tutorial_id, tutorial_version, user_id) {", 
+"  ", "  }", "))"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "test", code = "\nSys.sleep(5)\n", 
+        opts = list(label = "\"test\"", exercise = "TRUE", exercise.eval = "FALSE", 
+            exercise.lines = "10"), engine = "r")), code_check = NULL, 
+    error_check = NULL, check = NULL, solution = NULL, tests = NULL, 
+    options = list(eval = FALSE, echo = TRUE, results = "markup", 
+        tidy = FALSE, tidy.opts = NULL, collapse = FALSE, prompt = FALSE, 
+        comment = NA, highlight = FALSE, size = "normalsize", 
+        background = "#F7F7F7", strip.white = TRUE, cache = 0, 
+        cache.path = "Copy-Number-Tutorial_cache/html/", cache.vars = NULL, 
+        cache.lazy = TRUE, dependson = NULL, autodep = FALSE, 
+        cache.rebuild = FALSE, fig.keep = "high", fig.show = "asis", 
+        fig.align = "default", fig.path = "Copy-Number-Tutorial_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, exercise.timelimit = 180, label = "test", 
+        exercise = TRUE, exercise.eval = FALSE, exercise.lines = 10, 
+        code = c("", "Sys.sleep(5)", ""), out.width.px = 624, 
+        out.height.px = 384, params.src = "test, exercise=TRUE, exercise.eval=FALSE, exercise.lines=10", 
+        fig.num = 0, exercise.df_print = "paged", exercise.checker = "NULL"), 
+    engine = "r", version = "4"), class = c("r", "tutorial_exercise"
+)))
+</script>
+ 
+<script type="application/shiny-prerendered" data-context="server">
+`tutorial-exercise-allele-count-view-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-allele-count-view-code-editor`)), session)
+output$`tutorial-exercise-allele-count-view-output` <- renderUI({
+  `tutorial-exercise-allele-count-view-result`()
+})
+</script>
+
+
+<script type="application/shiny-prerendered" data-context="server">
+learnr:::store_exercise_cache(structure(list(label = "allele-count-view", global_setup = structure(c("library(learnr)", 
+"knitr::opts_chunk$set(echo = FALSE)", "tutorial_options(exercise.timelimit = 180)", 
+"options(tutorial.storage = list(", "", "  # save an arbitrary R object \"data\" to storage", 
+"  save_object = function(tutorial_id, tutorial_version, user_id, object_id, data) {", 
+"  ", "  },", "  ", "  # retreive a single R object from storage", 
+"  get_object = function(tutorial_id, tutorial_version, user_id, object_id) { ", 
+"    NULL ", "  },", "  ", "  # retreive a list of all R objects stored", 
+"  get_objects = function(tutorial_id, tutorial_version, user_id) { ", 
+"    list() ", "  },", "  ", "  # remove all stored R objects", 
+"  remove_all_objects = function(tutorial_id, tutorial_version, user_id) {", 
+"  ", "  }", "))"), chunk_opts = list(label = "setup", include = FALSE)), 
+    setup = NULL, chunks = list(list(label = "allele-count-view", 
+        code = "read.table('data/input/allele_counts/HCC1954_alleleFrequencies_chr22.txt',\n           header = TRUE,\n           comment.char = '')[105:110,]\n\nread.table('data/input/allele_counts/HCC1954_normal_alleleFrequencies_chr22.txt',\n           header = TRUE,\n           comment.char = '')[105:110,]\n", 
+        opts = list(label = "\"allele-count-view\"", exercise = "TRUE", 
+            exercise.eval = "FALSE", exercise.lines = "10"), 
+        engine = "r")), code_check = NULL, error_check = NULL, 
+    check = NULL, solution = NULL, tests = NULL, options = list(
+        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
+        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
+        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
+        strip.white = TRUE, cache = 0, cache.path = "Copy-Number-Tutorial_cache/html/", 
+        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
+        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
+        fig.show = "asis", fig.align = "default", fig.path = "Copy-Number-Tutorial_files/figure-html/", 
+        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
+        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
+        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
+        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
+        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
+        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
+        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
+        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
+        max.print = 1000, exercise.timelimit = 180, label = "allele-count-view", 
+        exercise = TRUE, exercise.eval = FALSE, exercise.lines = 10, 
+        code = c("read.table('data/input/allele_counts/HCC1954_alleleFrequencies_chr22.txt',", 
+        "           header = TRUE,", "           comment.char = '')[105:110,]", 
+        "", "read.table('data/input/allele_counts/HCC1954_normal_alleleFrequencies_chr22.txt',", 
+        "           header = TRUE,", "           comment.char = '')[105:110,]", 
+        ""), out.width.px = 624, out.height.px = 384, params.src = "allele-count-view, exercise=TRUE, exercise.eval=FALSE, exercise.lines=10", 
+        fig.num = 0, exercise.df_print = "paged", exercise.checker = "NULL"), 
+    engine = "r", version = "4"), class = c("r", "tutorial_exercise"
+)))
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
@@ -617,60 +691,6 @@ learnr:::store_exercise_cache(structure(list(label = "logr-baf-view", global_set
         "", "read.table('data/input/HCC1954_tumourBAF.txt',", 
         "           header = TRUE,", "           nrows = 5)", 
         ""), out.width.px = 624, out.height.px = 384, params.src = "logr-baf-view, exercise=TRUE, exercise.eval=FALSE", 
-        fig.num = 0, exercise.df_print = "paged", exercise.checker = "NULL"), 
-    engine = "r", version = "4"), class = c("r", "tutorial_exercise"
-)))
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-allele-count-view-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-allele-count-view-code-editor`)), session)
-output$`tutorial-exercise-allele-count-view-output` <- renderUI({
-  `tutorial-exercise-allele-count-view-result`()
-})
-</script>
-
-
-<script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "allele-count-view", global_setup = structure(c("library(learnr)", 
-"knitr::opts_chunk$set(echo = FALSE)", "tutorial_options(exercise.timelimit = 180)", 
-"options(tutorial.storage = list(", "", "  # save an arbitrary R object \"data\" to storage", 
-"  save_object = function(tutorial_id, tutorial_version, user_id, object_id, data) {", 
-"  ", "  },", "  ", "  # retreive a single R object from storage", 
-"  get_object = function(tutorial_id, tutorial_version, user_id, object_id) { ", 
-"    NULL ", "  },", "  ", "  # retreive a list of all R objects stored", 
-"  get_objects = function(tutorial_id, tutorial_version, user_id) { ", 
-"    list() ", "  },", "  ", "  # remove all stored R objects", 
-"  remove_all_objects = function(tutorial_id, tutorial_version, user_id) {", 
-"  ", "  }", "))"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = NULL, chunks = list(list(label = "allele-count-view", 
-        code = "read.table('data/allele_counts/HCC1954_alleleFrequencies_chr22.txt',\n           header = TRUE,\n           nrows = 5,\n           comment.char = '')\n\nread.table('data/allele_counts/HCC1954_normal_alleleFrequencies_chr22.txt',\n           header = TRUE,\n           nrows = 5,\n           comment.char = '')\n", 
-        opts = list(label = "\"allele-count-view\"", exercise = "TRUE", 
-            exercise.eval = "FALSE", exercise.lines = "10"), 
-        engine = "r")), code_check = NULL, error_check = NULL, 
-    check = NULL, solution = NULL, tests = NULL, options = list(
-        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
-        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
-        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "Copy-Number-Tutorial_cache/html/", 
-        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
-        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "Copy-Number-Tutorial_files/figure-html/", 
-        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
-        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
-        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
-        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
-        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
-        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 180, label = "allele-count-view", 
-        exercise = TRUE, exercise.eval = FALSE, exercise.lines = 10, 
-        code = c("read.table('data/allele_counts/HCC1954_alleleFrequencies_chr22.txt',", 
-        "           header = TRUE,", "           nrows = 5,", 
-        "           comment.char = '')", "", "read.table('data/allele_counts/HCC1954_normal_alleleFrequencies_chr22.txt',", 
-        "           header = TRUE,", "           nrows = 5,", 
-        "           comment.char = '')", ""), out.width.px = 624, 
-        out.height.px = 384, params.src = "allele-count-view, exercise=TRUE, exercise.eval=FALSE, exercise.lines=10", 
         fig.num = 0, exercise.df_print = "paged", exercise.checker = "NULL"), 
     engine = "r", version = "4"), class = c("r", "tutorial_exercise"
 )))
@@ -889,60 +909,6 @@ learnr:::store_exercise_cache(structure(list(label = "logr-baf-correction-plot",
         "", "ascat.plotRawData(", "  ASCATobj = LogR_BAFs_corrected,", 
         "  img.dir  = '~/practical/corrected_LogR_BAF_plots'", 
         "  )"), out.width.px = 624, out.height.px = 384, params.src = "logr-baf-correction-plot, exercise=TRUE, exercise.eval=FALSE, exercise.setup=\"load-logr-bafs-corrected\"", 
-        fig.num = 0, exercise.df_print = "paged", exercise.checker = "NULL"), 
-    engine = "r", version = "4"), class = c("r", "tutorial_exercise"
-)))
-</script>
- 
-<script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-segmentation-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-segmentation-code-editor`)), session)
-output$`tutorial-exercise-segmentation-output` <- renderUI({
-  `tutorial-exercise-segmentation-result`()
-})
-</script>
-
-
-<script type="application/shiny-prerendered" data-context="server">
-learnr:::store_exercise_cache(structure(list(label = "segmentation", global_setup = structure(c("library(learnr)", 
-"knitr::opts_chunk$set(echo = FALSE)", "tutorial_options(exercise.timelimit = 180)", 
-"options(tutorial.storage = list(", "", "  # save an arbitrary R object \"data\" to storage", 
-"  save_object = function(tutorial_id, tutorial_version, user_id, object_id, data) {", 
-"  ", "  },", "  ", "  # retreive a single R object from storage", 
-"  get_object = function(tutorial_id, tutorial_version, user_id, object_id) { ", 
-"    NULL ", "  },", "  ", "  # retreive a list of all R objects stored", 
-"  get_objects = function(tutorial_id, tutorial_version, user_id) { ", 
-"    list() ", "  },", "  ", "  # remove all stored R objects", 
-"  remove_all_objects = function(tutorial_id, tutorial_version, user_id) {", 
-"  ", "  }", "))"), chunk_opts = list(label = "setup", include = FALSE)), 
-    setup = "library(ASCAT)\nload('data/docs/RData_objects/LogR_BAFs_corrected.RData')", 
-    chunks = list(list(label = "load-logr-bafs-corrected", code = "library(ASCAT)\nload('data/docs/RData_objects/LogR_BAFs_corrected.RData')", 
-        opts = list(label = "\"load-logr-bafs-corrected\"", echo = "FALSE"), 
-        engine = "r"), list(label = "segmentation", code = "dir.create('~/practical/segmentation_output')\n\nsegmented_data <-\n  ascat.aspcf(\n    ASCATobj = LogR_BAFs_corrected,\n    out.dir  = '~/practical/segmentation_output'\n)", 
-        opts = list(label = "\"segmentation\"", exercise = "TRUE", 
-            exercise.eval = "FALSE", exercise.setup = "\"load-logr-bafs-corrected\""), 
-        engine = "r")), code_check = NULL, error_check = NULL, 
-    check = NULL, solution = NULL, tests = NULL, options = list(
-        eval = FALSE, echo = TRUE, results = "markup", tidy = FALSE, 
-        tidy.opts = NULL, collapse = FALSE, prompt = FALSE, comment = NA, 
-        highlight = FALSE, size = "normalsize", background = "#F7F7F7", 
-        strip.white = TRUE, cache = 0, cache.path = "Copy-Number-Tutorial_cache/html/", 
-        cache.vars = NULL, cache.lazy = TRUE, dependson = NULL, 
-        autodep = FALSE, cache.rebuild = FALSE, fig.keep = "high", 
-        fig.show = "asis", fig.align = "default", fig.path = "Copy-Number-Tutorial_files/figure-html/", 
-        dev = "png", dev.args = NULL, dpi = 192, fig.ext = "png", 
-        fig.width = 6.5, fig.height = 4, fig.env = "figure", 
-        fig.cap = NULL, fig.scap = NULL, fig.lp = "fig:", fig.subcap = NULL, 
-        fig.pos = "", out.width = 624, out.height = NULL, out.extra = NULL, 
-        fig.retina = 2, external = TRUE, sanitize = FALSE, interval = 1, 
-        aniopts = "controls,loop", warning = TRUE, error = FALSE, 
-        message = TRUE, render = NULL, ref.label = NULL, child = NULL, 
-        engine = "r", split = FALSE, include = TRUE, purl = TRUE, 
-        max.print = 1000, exercise.timelimit = 180, label = "segmentation", 
-        exercise = TRUE, exercise.eval = FALSE, exercise.setup = "load-logr-bafs-corrected", 
-        code = c("dir.create('~/practical/segmentation_output')", 
-        "", "segmented_data <-", "  ascat.aspcf(", "    ASCATobj = LogR_BAFs_corrected,", 
-        "    out.dir  = '~/practical/segmentation_output'", ")"
-        ), out.width.px = 624, out.height.px = 384, params.src = "segmentation, exercise=TRUE, exercise.eval=FALSE, exercise.setup=\"load-logr-bafs-corrected\"", 
         fig.num = 0, exercise.df_print = "paged", exercise.checker = "NULL"), 
     engine = "r", version = "4"), class = c("r", "tutorial_exercise"
 )))

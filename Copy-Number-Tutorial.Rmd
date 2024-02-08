@@ -3,7 +3,7 @@ title: "Copy Number Practical"
 output: learnr::tutorial
 runtime: shiny_prerendered
 tutorial:
-  version: 0.1
+  version: 0.2
 ---
 
 ```{r setup, include=FALSE}
@@ -64,52 +64,9 @@ options(tutorial.storage = list(
 ```
 
 
-## Introduction & Setup
+## Introduction
 
-In this practical, we are going to use copy number calling software to generate copy number calls from whole-genome sequencing data. The software is called [ASCAT](https://doi.org/10.1073/pnas.1009843107) (**A**llele-**S**pecific **C**opy number **A**nalysis of **T**umours), and the sequencing data comes from a breast cancer cell line (HCC1954) that was sequenced by the Cancer Cell Line Encyclopedia (CCLE), and a immortalised normal blood cell line from the same patient.
-
-### Setup
-
-To run this practical yourself, you can choose one of the below options.
-
-#### Running the practical in a Docker container - recommended
-
-A Docker container has been set up for you to use for this practical. Using this container is highly recommended, because it contains all the software dependencies and data you need to do the practical.
-
-To run this practical, first [install and open Docker](https://docs.docker.com/get-docker/). You may want to create a new directory for this project, `cd` into it, then on Linux or Mac run:
-```{bash unix-run, eval=FALSE, echo=TRUE, highlight=TRUE}
-docker run -p 8787:8787 -v "$(pwd)":/home/rstudio/practical ghcr.io/kateeasoncrukci/copy_number_practical:amd
-```
-
-Or on Windows `cmd`:
-```{bash cmd-run, eval=FALSE, echo=TRUE, highlight=TRUE}
-docker run -p 8787:8787 -v %cd%:/home/rstudio/practical ghcr.io/kateeasoncrukci/copy_number_practical:amd
-```
-
-or PowerShell:
-```{bash powershell-run, eval=FALSE, echo=TRUE, highlight=TRUE}
-docker run -p 8787:8787 -v ${PWD}:/home/rstudio/practical ghcr.io/kateeasoncrukci/copy_number_practical:amd
-```
-
-A password should be printed (after `The password is set to: ...`), which you should copy.
-
-In your browser, navigate to [localhost:8787](localhost:8787), and use the username `rstudio` and the password you just copied to log in.
-
-#### Running the practical by manually installing R packages
-
-If you have problems installing or running Docker, you can manually install the required packages and download the practical's data.
-
-In your RStudio session, download and install BioConductor if you don't already have it, then install ASCAT's dependencies, and finally ASCAT itself.
-```{r dependencies, eval=FALSE, echo=TRUE, highlight=TRUE}
-install.packages('BiocManager')
-BiocManager::install()
-
-BiocManager::install(c('IRanges', 'GenomicRanges'))
-remotes::install_url('https://github.com/VanLoo-lab/ascat/releases/download/v3.0.0/ASCAT_3.0.0.tar.gz')
-```
-
-Then, download and unzip the correction reference data from [here](https://www.dropbox.com/s/v0tgr1esyoh1krw/GC_G1000_hg19.zip) and [here](https://www.dropbox.com/s/50n7xb06x318tgl/RT_G1000_hg19.zip), and the input data from the practical's [GitHub repository](https://github.com/kateeasoncrukci/copy_number_practical/tree/main/input). Put the correction reference data in a folder called `data/reference_data` and the input data in a folder called `data/input`.
-
+In this practical, we are going to use copy number calling software to generate copy number calls from whole-genome sequencing data. The software is called [ASCAT](https://doi.org/10.1073/pnas.1009843107) (**A**llele-**S**pecific **C**opy number **A**nalysis of **T**umours), and the sequencing data comes from a breast cancer cell line (HCC1954) that was sequenced by the Cancer Cell Line Encyclopedia (CCLE), and an immortalised normal blood cell line from the same patient.
 
 ## Task 1: From BAMs to LogRs and BAFs
 
@@ -156,6 +113,13 @@ ascat.prepareHTS(
 One of the files that is output from the `prepareHTS` command can be inspected using the code below. Use `read.table` to look at the other outputs too.
 
 What do the values in these files mean? How do you think they were calculated?
+
+```{r test, exercise=TRUE, exercise.eval=FALSE, exercise.lines=10}
+
+Sys.sleep(5)
+
+```
+
 
 ```{r allele-count-view, exercise=TRUE, exercise.eval=FALSE, exercise.lines=10}
 read.table('data/input/allele_counts/HCC1954_alleleFrequencies_chr22.txt',
@@ -284,8 +248,6 @@ segmented_data <-
 ```{r segmentation-plot, exercise=TRUE, exercise.eval=FALSE, exercise.setup="load-segmented"}
 dir.create('~/practical/segmentation_plots')
 
-load('data/docs/RData_objects/segmented_data.RData')
-
 ascat.plotSegmentedData(
   ASCATobj = segmented_data,
   img.dir  = '~/practical/segmentation_plots'
@@ -390,8 +352,9 @@ You will need to look up the coordinates of the *ERBB2* gene in the HG19 (aka GR
 <!-- Saving .RData objects in case of any problems running things -->
 
 ```{r eval=FALSE, include=FALSE}
-save(LogR_BAFs, file = '.RData_objects/LogR_BAFs.RData')
-save(LogR_BAFs_corrected, file = '.RData_objects/LogR_BAFs_corrected.RData')
-save(segmented_data, file = '.RData_objects/segmented_data.RData')
-save(copy_number, file = '.RData_objects/copy_number.RData')
+save(LogR_BAFs, file = 'data/docs/RData_objects/LogR_BAFs.RData')
+save(LogR_BAFs_corrected, file = 'data/docs/RData_objects/LogR_BAFs_corrected.RData')
+save(segmented_data, file = 'data/docs/RData_objects/segmented_data.RData')
+save(copy_number, file = 'data/docs/RData_objects/copy_number.RData')
 ```
+`
