@@ -114,13 +114,6 @@ One of the files that is output from the `prepareHTS` command can be inspected u
 
 What do the values in these files mean? How do you think they were calculated?
 
-```{r test, exercise=TRUE, exercise.eval=FALSE, exercise.lines=10}
-
-Sys.sleep(5)
-
-```
-
-
 ```{r allele-count-view, exercise=TRUE, exercise.eval=FALSE, exercise.lines=10}
 read.table('data/input/allele_counts/HCC1954_alleleFrequencies_chr22.txt',
            header = TRUE,
