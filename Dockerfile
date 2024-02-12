@@ -7,7 +7,7 @@ ENV PANDOC_VERSION=default
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
 RUN /rocker_scripts/install_rstudio.sh
-RUN /rocker_scripts/install_pandoc.sh
+#RUN /rocker_scripts/install_pandoc.sh
 
 # HTSLIB
 RUN apt -y update && \
@@ -37,8 +37,11 @@ COPY data/reference_data /home/rstudio/practical/data/reference_data/
 COPY data/docs /home/rstudio/practical/data/docs/
 COPY images /home/rstudio/practical/images
 COPY Copy-Number-Tutorial.Rmd /home/rstudio/practical
+COPY Copy-Number-Tutorial.html /home/rstudio/practical
 
 RUN chown -R rstudio:rstudio /home/rstudio/
+
+RUN echo "setwd('/home/rstudio/practical')" >> /usr/local/lib/R/etc/Rprofile.site
 
 EXPOSE 8787
 
